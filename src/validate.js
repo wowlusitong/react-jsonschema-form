@@ -88,6 +88,14 @@ function createErrorHandler(formData) {
       handler
     );
   }
+  if (Array.isArray(formData) && formData.every(datum => isObject(datum))) {
+    return formData.reduce(
+      (acc, value, key) => {
+        return { ...acc, [key]: createErrorHandler(value) };
+      },
+      handler
+    );
+  }
   return handler;
 }
 
